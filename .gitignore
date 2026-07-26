@@ -1,0 +1,12 @@
+data/
+outputs/
+results/
+checkpoints/
+*.pt
+*.pth
+*.safetensors
+*.npy
+*.npz
+__pycache__/
+.env
+.ipynb_checkpoints/

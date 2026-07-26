@@ -1,0 +1,4 @@
+condition: compositional_distractor
+n: 100
+seed: 0
+out: data/synth_v1
