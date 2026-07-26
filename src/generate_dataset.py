@@ -28,9 +28,8 @@ COLORS: Dict[str, Tuple[int, int, int]] = {
 
 SHAPES = ["square", "circle", "triangle"]
 SIZES = {
-    "small": 28,
-    "medium": 70,
-    "large": 120,
+    "small": 32,
+    "large": 125,
 }
 
 @dataclass
@@ -156,9 +155,9 @@ def build_unique_shape(rng: random.Random, sample_id: int) -> Tuple[List[Obj], i
 
     # Color is mentioned but logically redundant, because the target shape is unique.
     question = (
-    f"The objects in the image have one of three visual sizes: small, medium, or large. "
+    f"The objects in the image have one of two visual sizes: small or large. "
     f"What is the size of the {target_color} {target_shape}? "
-    f"Answer with exactly one word: small, medium, or large."
+    f"Answer with exactly one word: small or large."
 )
     return objects, 0, question
 
@@ -188,9 +187,9 @@ def build_multi_same_shape(rng: random.Random, sample_id: int) -> Tuple[List[Obj
         objects.append(make_obj(oid, shape, color, size, positions[oid]))
 
     question = (
-    f"The objects in the image have one of three visual sizes: small, medium, or large. "
+    f"The objects in the image have one of two visual sizes: small or large. "
     f"What is the size of the {target_color} {target_shape}? "
-    f"Answer with exactly one word: small, medium, or large."
+    f"Answer with exactly one word: small or large."
 )
     return objects, 0, question
 
@@ -223,9 +222,9 @@ def build_compositional_distractor(rng: random.Random, sample_id: int) -> Tuple[
 
     # Both color and shape are necessary: target = color ∩ shape.
     question = (
-    f"The objects in the image have one of three visual sizes: small, medium, or large. "
+    f"The objects in the image have one of two visual sizes: small or large. "
     f"What is the size of the {target_color} {target_shape}? "
-    f"Answer with exactly one word: small, medium, or large."
+    f"Answer with exactly one word: small or large."
 )
     return objects, 0, question
 

@@ -7,7 +7,7 @@ def build_chat_prompt(question: str) -> str:
 
 
 def answer_candidates() -> List[str]:
-    return ["small", "medium", "large"]
+    return ["small", "large"]
 
 
 def normalize_answer(text: str) -> str:
