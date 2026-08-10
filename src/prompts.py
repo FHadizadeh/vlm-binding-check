@@ -1,22 +1,46 @@
-from typing import List
+import re
+from typing import List, Optional
+
+
+DEFAULT_ANSWER_CANDIDATES = [
+    "small",
+    "large",
+    "red",
+    "blue",
+    "green",
+    "yellow",
+    "purple",
+    "orange",
+    "square",
+    "circle",
+    "triangle",
+]
 
 
 def build_chat_prompt(question: str) -> str:
-    """Simple text-only prompt wrapper. For a real VLM chat template, use the model processor."""
     return question.strip()
 
 
-def answer_candidates() -> List[str]:
-    return ["small", "large"]
+def normalize_answer(
+    text: str,
+    candidates: Optional[List[str]] = None,
+) -> str:
+    if candidates is None:
+        candidates = DEFAULT_ANSWER_CANDIDATES
 
+    normalized_candidates = [candidate.lower().strip() for candidate in candidates]
 
-def normalize_answer(text: str) -> str:
-    t = text.lower().strip().replace(".", "").replace(",", "")
+    t = text.lower().strip()
+    t = re.sub(r"[^\w\s-]", " ", t)
+    t = re.sub(r"\s+", " ", t).strip()
+
+    if t in normalized_candidates:
+        return t
+
     words = t.split()
-    for cand in answer_candidates():
-        if cand in words or t == cand:
-            return cand
-    for cand in answer_candidates():
-        if cand in t:
-            return cand
+
+    for candidate in normalized_candidates:
+        if candidate in words:
+            return candidate
+
     return t
