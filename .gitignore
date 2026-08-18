@@ -1,7 +1,6 @@
 data/
 outputs/
 results/
-inspection/
 checkpoints/
 *.pt
 *.pth
