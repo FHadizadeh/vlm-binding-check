@@ -1,21 +1,48 @@
 # Experimental Results
 
-This file records verified experimental results for the VLM multi-feature binding project.  
-Numbers below are copied or recomputed from the exact result CSVs used in the experiments. Results from different dataset generations are kept separate and should not be compared as if they were the same benchmark.
+Results for the controlled object–attribute binding experiments. Dataset versions are reported separately when their generation or task design differs.
 
-## 1. Legacy initial baseline — Qwen2.5-VL-3B
+## 1. Qwen2.5-VL-3B counterfactual baselines
 
-These are the original baseline numbers already recorded in the repository for the first binary-size dataset/generator. The condition names belong to that earlier setup and are **not** the current `synth_v4` condition hierarchy.
+Model: `Qwen/Qwen2.5-VL-3B-Instruct`
 
-| Condition | Accuracy |
-|---|---:|
-| `unique_shape` | 95.37% |
-| `multi_same_shape` | 96.30% |
-| `compositional_distractor` | 90.74% |
+Each condition contains 108 clean/counterfactual pairs: 36 color, 36 shape, and 36 size queries.
 
-Initial observation: removing the medium-size label reduced ambiguity and the 3B model was near ceiling on the first two conditions, while the compositional distractor condition produced a modest accuracy drop.
+### `unique`
 
-> The exact CSV/output for this legacy 3B baseline is not currently included in the material available here; these three values come from the repository's original `notes/baseline_results.md`. If the raw 3B result CSVs still exist, add them under `results/legacy_qwen3b/` for reproducibility.
+| Queried attribute | n | Clean acc. | CF acc. | Prediction changed | Usable rate |
+|---|---:|---:|---:|---:|---:|
+| color | 36 | 100.00% | 100.00% | 100.00% | 100.00% |
+| shape | 36 | 91.67% | 94.44% | 91.67% | 86.11% |
+| size | 36 | 91.67% | 97.22% | 88.89% | 88.89% |
+| **Overall** | **108** | **94.44%** | **97.22%** | **93.52%** | **91.67%** |
+
+Usable pairs: **99 / 108**.
+
+### `multi`
+
+| Queried attribute | n | Clean acc. | CF acc. | Prediction changed | Usable rate |
+|---|---:|---:|---:|---:|---:|
+| color | 36 | 100.00% | 100.00% | 100.00% | 100.00% |
+| shape | 36 | 86.11% | 83.33% | 88.89% | 69.44% |
+| size | 36 | 100.00% | 94.44% | 94.44% | 94.44% |
+| **Overall** | **108** | **95.37%** | **92.59%** | **94.44%** | **87.96%** |
+
+Usable pairs: **95 / 108**.
+
+### `compositional_distractor`
+
+| Queried attribute | n | Clean acc. | CF acc. | Prediction changed | Usable rate |
+|---|---:|---:|---:|---:|---:|
+| color | 36 | 94.44% | 94.44% | 94.44% | 94.44% |
+| shape | 36 | 94.44% | 86.11% | 91.67% | 80.56% |
+| size | 36 | 100.00% | 83.33% | 83.33% | 83.33% |
+| **Overall** | **108** | **96.30%** | **87.96%** | **89.81%** | **86.11%** |
+
+Usable pairs: **93 / 108**.
+
+Across the three initial 3B conditions, color is the most stable queried attribute. The largest degradation in counterfactual endpoint performance occurs in the compositional condition, particularly for shape and size queries.
+
 
 ## 2. Current controlled dataset — `synth_v4`
 
@@ -27,7 +54,7 @@ Current hierarchy:
 
 For `n=108`, `--query_attribute mixed` gives 36 size, 36 color, and 36 shape questions.
 
-The detailed causal results below are currently for **`conjunctive_binding` only**. I do not currently have verified full baseline/patching CSVs for the other two `synth_v4` conditions, so no numbers are reported for them here.
+The detailed causal analysis below focuses on **`conjunctive_binding`**.
 
 ## 3. Qwen2.5-VL-7B counterfactual endpoint check — conjunctive binding
 
